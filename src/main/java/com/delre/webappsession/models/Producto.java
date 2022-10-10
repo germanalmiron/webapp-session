@@ -1,4 +1,4 @@
-package com.delre.cookietest.models;
+package com.delre.webappsession.models;
 
 public class Producto {
 	private String nombre;

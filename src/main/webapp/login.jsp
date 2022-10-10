@@ -20,7 +20,7 @@
 <div class="container well col-3">
     <br />
     <h1 class="text-center text-primary">Inicio de sesión</h1>
-    <form action="/cookie-test/login" method="post">
+    <form action="/webapp-session/login" method="post">
         <!-- usuario input-->
         <div class="form-outline mb-4">
             <input

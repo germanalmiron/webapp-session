@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.delre</groupId>
-    <artifactId>cookie-test</artifactId>
+    <artifactId>webapp-session</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>cookie-test</name>
+    <name>webapp-session</name>
     <packaging>war</packaging>
 
 <properties>

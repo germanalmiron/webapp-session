@@ -1,8 +1,10 @@
-package com.delre.cookietest.controllers;
+package com.delre.webappsession.controllers;
 
-import com.delre.cookietest.models.Producto;
-import com.delre.cookietest.services.ProductoService;
-import com.delre.cookietest.services.ProductoServiceImpl;
+import com.delre.webappsession.models.Producto;
+import com.delre.webappsession.services.LoginService;
+import com.delre.webappsession.services.LoginServiceImpl;
+import com.delre.webappsession.services.ProductoService;
+import com.delre.webappsession.services.ProductoServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet("/productos")
 public class ProductoServlet extends HttpServlet {
@@ -21,16 +24,15 @@ public class ProductoServlet extends HttpServlet {
 	
 	List<Producto> productos = productoService.listar();
 	
-	LoginServlet loginServlet = new LoginServlet();
-	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-	
-		this.loginServlet.deleteCookies(req, resp);
-		
-		if (req.getCookies() != null) {
-			for (Cookie cookie : req.getCookies()) {
-				if (cookie.getName().equals("username")) {
+
+		ProductoService service = new ProductoServiceImpl();
+		List<Producto> productos = service.listar();
+
+		LoginService auth = new LoginServiceImpl();
+		Optional<String> usernameOptional = auth.getUsername (req);
+			if (usernameOptional.isPresent()) {
 					resp.setContentType("text/html");
 					PrintWriter out = resp.getWriter();
 					out.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\"\n" +
@@ -54,14 +56,12 @@ public class ProductoServlet extends HttpServlet {
 					out.println("</table>");
                     out.println("<br>\n" +
                             "    <ul>\n" +
-                            "        <a href=\"/cookie-test/\">Regresar</a>\n" +
+                            "        <a href=\"/webapp-session/\">Regresar</a>\n" +
                             "    </ul>\n" +
                             "    </div>");
 					out.println("</body></html>");
-					break;
-				}
-			}
-		} else {
+
+			} else {
 			getServletContext().getRequestDispatcher("/index.html").forward(req, resp);
 		}
 	}
